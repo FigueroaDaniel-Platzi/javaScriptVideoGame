@@ -1,12 +1,14 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d'); // canvas need a context to use it. Could be 2d or 3d
 
-window.addEventListener('load', startGame); // You can use window 
+let canvasSize;
+let elementSize;
 
-function startGame() {
-  let canvasSize;
+window.addEventListener('load', setCanvasSize); // You can use window 
+window.addEventListener('resize', setCanvasSize); // New case for addEventListener
 
-  if(window.innerHeight > window.innerWidth) {
+function setCanvasSize() {
+  if(window.innerHeight > window.innerWidth) { // Using window 
     canvasSize = window.innerWidth * 0.8;
   } else {
     canvasSize = window.innerHeight * 0.8;
@@ -15,17 +17,18 @@ function startGame() {
   canvas.setAttribute('width', canvasSize);
   canvas.setAttribute('height', canvasSize);
 
-  const elementSize = canvasSize / 10;
+  elementSize = canvasSize / 10;
 
+  startGame();
+}
+
+function startGame() {
   game.font = elementSize + 'px Verdana';
   game.textAlign = 'end';
 
   for(let i = 1; i <= 10; i++) {
     game.fillText(emojis['X'], elementSize, elementSize * i);
   }
-
-
-
 
   // Methods to use with canvas
   // game.fillRect(0,50,100,100);
