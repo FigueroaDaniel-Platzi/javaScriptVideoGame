@@ -8,6 +8,11 @@ const btnDown = document.querySelector('#down');
 let canvasSize;
 let elementSize;
 
+const playerPosition = { // Creating object for player position.
+  x: undefined,
+  y: undefined,
+}
+
 window.addEventListener('load', setCanvasSize); // You can use window 
 window.addEventListener('resize', setCanvasSize); // New case for addEventListener
 
@@ -39,10 +44,16 @@ function startGame() {
       const emoji = emojis[col];
       const posX = elementSize * (colI + 1);
       const posY = elementSize * (rowI + 1);
+
+      if(col == 'O') {
+        playerPosition.x = posX;
+        playerPosition.y = posY;
+      }
+
       game.fillText(emoji, posX, posY);
     })
   });
-
+  movePlayer();
   // for(let row = 1; row <= 10; row++) {
   //   for(let col = 1; col <= 10; col++) {
   //     game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementSize * col, elementSize * row);
@@ -66,14 +77,20 @@ btnLeft.addEventListener('click', moveLeft);
 btnRight.addEventListener('click', moveRight);
 btnDown.addEventListener('click', moveDown);
 
+function movePlayer() {
+  game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
 function moveByKeys(event) {
-  if (event.key == 'ArrowUp') moveUp();
+  if (event.key == 'ArrowUp') moveUp(); // Different way to write if statement 
   else if(event.key == 'ArrowLeft') moveLeft();
   else if(event.key == 'ArrowRight') moveRight();
   else if(event.key == 'ArrowDown') moveDown();
 }
 function moveUp() {
   console.log('Me quiero mover hacia arriba');
+  playerPosition.y -= elementSize;
+  movePlayer();
 }
 function moveLeft() {
   console.log('Me quiero mover hacia izquierda');
