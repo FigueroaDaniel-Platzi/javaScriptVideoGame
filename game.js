@@ -14,7 +14,7 @@ function setCanvasSize() {
     canvasSize = window.innerHeight * 0.8;
   }
 
-  canvas.setAttribute('width', canvasSize);
+  canvas.setAttribute('width', canvasSize); // setAttribute 
   canvas.setAttribute('height', canvasSize);
 
   elementSize = canvasSize / 10;
@@ -26,8 +26,14 @@ function startGame() {
   game.font = elementSize + 'px Verdana';
   game.textAlign = 'end';
 
-  for(let i = 1; i <= 10; i++) {
-    game.fillText(emojis['X'], elementSize, elementSize * i);
+  const map = maps[1];
+  const mapRows = map.trim().split('\n'); // You can use trim only with strings.
+  const mapRowCols = mapRows.map(row => row.trim().split(''));
+   
+  for(let row = 1; row <= 10; row++) {
+    for(let col = 1; col <= 10; col++) {
+      game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementSize * col, elementSize * row);
+    }
   }
 
   // Methods to use with canvas
