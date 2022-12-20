@@ -26,15 +26,24 @@ function startGame() {
   game.font = elementSize + 'px Verdana';
   game.textAlign = 'end';
 
-  const map = maps[1];
+  const map = maps[0];
   const mapRows = map.trim().split('\n'); // You can use trim only with strings.
   const mapRowCols = mapRows.map(row => row.trim().split(''));
-   
-  for(let row = 1; row <= 10; row++) {
-    for(let col = 1; col <= 10; col++) {
-      game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementSize * col, elementSize * row);
-    }
-  }
+  
+  mapRowCols.forEach((row, rowI) => { // Using forEach with 2 arguments.
+    row.forEach((col, colI) => {
+      const emoji = emojis[col];
+      const posX = elementSize * (colI + 1);
+      const posY = elementSize * (rowI + 1);
+      game.fillText(emoji, posX, posY);
+    })
+  });
+
+  // for(let row = 1; row <= 10; row++) {
+  //   for(let col = 1; col <= 10; col++) {
+  //     game.fillText(emojis[mapRowCols[row - 1][col - 1]], elementSize * col, elementSize * row);
+  //   }
+  // }
 
   // Methods to use with canvas
   // game.fillRect(0,50,100,100);
