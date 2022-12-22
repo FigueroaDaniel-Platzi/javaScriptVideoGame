@@ -7,6 +7,7 @@ const btnDown = document.querySelector('#down');
 
 let canvasSize;
 let elementSize;
+let level = 0;
 
 const playerPosition = { // Creating object for player position.
   x: undefined,
@@ -40,7 +41,13 @@ function startGame() {
   game.font = elementSize + 'px Verdana';
   game.textAlign = 'end';
 
-  const map = maps[0];
+  const map = maps[level];
+
+  if(!map) {
+    gameWin();
+    return;
+  }
+
   const mapRows = map.trim().split('\n'); // You can use trim only with strings.
   const mapRowCols = mapRows.map(row => row.trim().split(''));
 
@@ -101,7 +108,7 @@ function movePlayer() {
   const giftCollision = giftCollisionX && giftCollisionY;
 
   if(giftCollision) {
-    console.log('Subiste de nivel!');
+    levelWin();
   }
 
   const enemyCollision = enemyPositions.find(enemy => {
@@ -115,6 +122,16 @@ function movePlayer() {
   }
   
   game.fillText(emojis['PLAYER'], playerPosition.x, playerPosition.y);
+}
+
+function levelWin() {
+  console.log('Subiste de nivel');
+  level++;
+  startGame();
+}
+
+function gameWin() {
+  console.log('Terminaste el Juego!');
 }
 
 function moveByKeys(event) {
