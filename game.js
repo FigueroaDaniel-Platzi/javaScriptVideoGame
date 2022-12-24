@@ -5,11 +5,16 @@ const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector('#lives');
+const spanTime = document.querySelector('#time');
 
 let canvasSize;
 let elementSize;
 let level = 0;
 let lives = 3;
+
+let timeStart;
+let timePlayer;
+let timeInterval;
 
 const playerPosition = { // Creating object for player position.
   x: undefined,
@@ -48,6 +53,11 @@ function startGame() {
   if(!map) {
     gameWin();
     return;
+  }
+
+  if(!timeStart) {
+    timeStart = Date.now(); // Using Date object
+    timeInterval = setInterval(showTime, 100); // using setInterval function.
   }
 
   const mapRows = map.trim().split('\n'); // You can use trim only with strings.
@@ -143,6 +153,7 @@ function levelFail() {
   if(lives <= 0) {
     level = 0;
     lives = 3;
+    timeStart = undefined;
   }
 
   playerPosition.x = undefined;
@@ -152,12 +163,17 @@ function levelFail() {
 
 function gameWin() {
   console.log('Terminaste el Juego!');
+  clearInterval(timeInterval); // Using clearInterval function
 }
 
 function showLives() {
   const heartsArray = Array(lives).fill(emojis['HEART']); // Using Array prototype.
   spanLives.innerHTML = "";
   heartsArray.forEach(heart => spanLives.append(heart));
+}
+
+function showTime() {
+  spanTime.innerHTML = Date.now() - timeStart;
 }
 
 function moveByKeys(event) {
