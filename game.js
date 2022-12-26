@@ -31,12 +31,18 @@ let enemyPositions = [];
 window.addEventListener('load', setCanvasSize); // You can use window 
 window.addEventListener('resize', setCanvasSize); // New case for addEventListener
 
+function fixNumber(n) {
+  return Number(n.toFixed(2));
+}
+
 function setCanvasSize() {
   if(window.innerHeight > window.innerWidth) { // Using window 
-    canvasSize = window.innerWidth * 0.8;
+    canvasSize = window.innerWidth * 0.7;
   } else {
-    canvasSize = window.innerHeight * 0.8;
+    canvasSize = window.innerHeight * 0.7;
   }
+
+  canvasSize = Number(canvasSize.toFixed(0));
 
   canvas.setAttribute('width', canvasSize); // setAttribute 
   canvas.setAttribute('height', canvasSize);
