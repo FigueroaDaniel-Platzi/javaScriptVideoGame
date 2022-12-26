@@ -6,6 +6,8 @@ const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
 const spanLives = document.querySelector('#lives');
 const spanTime = document.querySelector('#time');
+const spanRecord = document.querySelector('#record');
+const pResult = document.querySelector('#result');
 
 let canvasSize;
 let elementSize;
@@ -58,6 +60,7 @@ function startGame() {
   if(!timeStart) {
     timeStart = Date.now(); // Using Date object
     timeInterval = setInterval(showTime, 100); // using setInterval function.
+    showRecord();
   }
 
   const mapRows = map.trim().split('\n'); // You can use trim only with strings.
@@ -164,7 +167,24 @@ function levelFail() {
 function gameWin() {
   console.log('Terminaste el Juego!');
   clearInterval(timeInterval); // Using clearInterval function
+
+  const recordTime = localStorage.getItem('record_time') // Using localStorage
+  const playerTime = Date.now() - timeStart;
+
+  if(recordTime) {
+    if(recordTime >= playerTime) {
+      localStorage.setItem('record_time', playerTime);
+      pResult.innerHTML = 'SUPERASTE EL RECORD :)';
+    }
+    else {
+      pResult.innerHTML = 'lo siento, no superaste el record :('
+    }
+  } else {
+    localStorage.setItem('record_time', playerTime);
+    pResult.innerHTML = 'Primera vez? Muy bien, pero ahora trata de superar tu tiempo :)'
+  }
 }
+
 
 function showLives() {
   const heartsArray = Array(lives).fill(emojis['HEART']); // Using Array prototype.
@@ -221,4 +241,7 @@ function moveDown() {
     playerPosition.y += elementSize;
     startGame();
   }
+}
+function showRecord() {
+  spanRecord.innerHTML = localStorage.getItem('record_time');
 }
